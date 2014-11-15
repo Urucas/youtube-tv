@@ -17,7 +17,7 @@ body {
 }
 .controls .search {
   position: relative;
-  margin-right: 60px;
+  margin-right: 120px;
 }
 .controls input[type=search] {
   box-sizing: border-box;
@@ -45,7 +45,7 @@ body {
 }
 
 
-.controls .playback {
+.controls .playback, .controls .tabs {
   position: absolute;
   top: 0;
   right: 0;
@@ -54,7 +54,16 @@ body {
   background: #000;
   overflow: hidden;
 }
-.playback button {
+
+.controls .playback {
+	right:60px;
+}
+
+.controls .tabs {
+	background:#333;
+}
+
+.playback button, .tabs button {
   width: 100%;
   height: 100%;
   border: none;
@@ -63,13 +72,35 @@ body {
   background-image: url(images/playback@2x.png);
   background-position: -1000px -1000px;
 }
-  .playback button.play {
-    background-position: 0px 0px;
-  }
-  .playback button.pause {
-    background-position: 0px -60px;
-  }
+ 
+.playback button.play {
+	background-position: 0px 0px;
+}
 
+.playback button.pause {
+	background-position: 0px -60px;
+}
+
+.tabs button {
+	background:none;
+}
+
+.tabs .search {
+	display:none;
+	background-image: url(images/search_icon.png);
+	background-repeat:no-repeat;
+	background-position:50% 50%;
+}
+
+.tabs .favs {
+	background-image: url(images/star_icon.png);
+	background-repeat:no-repeat;
+	background-position:50% 50%;
+}
+
+#favs-results {
+	display: none;
+}
 
 /* Video Listings */
 .video-list {

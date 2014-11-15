@@ -11,19 +11,29 @@ var searchTimeout = null;
 $('#searchQuery').on('keyup', function(event){
   // Cancel any queued searches
   clearTimeout(searchTimeout);
-
   // If the user pressed enter, search inmediately
   if( event.keyCode === 13 ) {
     // Show the loading gif and hide it when the search is done
     $('.loading').show();
-    searchYoutube($('#searchQuery').val(), function(){ $('.loading').hide(); });
+		var q = $('#searchQuery').val();
+		if($("#results").css("display") == "block") {
+	    searchYoutube(q, function(){ $('.loading').hide(); });
+		}else {
+			searchFavs(q, function(){ $('.loading').hide();});
+		}
   }
   else {
     // If not, wait a bit before searching automatically
     searchTimeout = setTimeout(function(){
       // Show the loading gif and hide it when the search is done
       $('.loading').show();
-      searchYoutube($('#searchQuery').val(), function(){ $('.loading').hide(); });
+			var q = $('#searchQuery').val();
+			if($("#results").css("display") == "block") {
+	      searchYoutube(q, function(){ $('.loading').hide(); });
+			}else{
+				searchFavs(q, function(){ $(".loading").hide(); })
+			}
+
     }, 500);
   }
 });

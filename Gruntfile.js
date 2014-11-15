@@ -38,11 +38,12 @@ module.exports = function(grunt) {
     }
   });
 
-
   grunt.loadNpmTasks("grunt-contrib-copy");
   grunt.loadNpmTasks("grunt-node-webkit-builder");
 
   grunt.registerTask("nodewebkitbuild", ["nodewebkit", "copy"]);
   grunt.registerTask("copylibs", ["copy"]);
+
+	grunt.registerTask('default', ['nodewebkit', 'copy']);
 
  };
