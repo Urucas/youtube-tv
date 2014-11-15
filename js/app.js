@@ -32,6 +32,7 @@ io.on('connection', function (socket) {
   socket.on('watchVideo', function (video) {
     // video contains a bit of info about our video (id, title, thumbnail)
     // Order our Youtube Player to watch that video
+		console.log(video);
     Youtube.watchVideo(video);
   });
 
@@ -43,6 +44,11 @@ io.on('connection', function (socket) {
     Youtube.pauseVideo();
   });
 
+	socket.on('get recents', function(){
+		Database.getAll(function(all){
+			socket.emit("recents", all);
+		});
+	});
 });
 
 

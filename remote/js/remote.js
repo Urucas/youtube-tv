@@ -58,7 +58,6 @@ socket.on('statusChange', function(status){
   }
 });
 
-
 // Notify the app when we hit the play button
 $('.playback .play').on('click', function(event){
   socket.emit('play');

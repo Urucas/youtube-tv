@@ -55,12 +55,12 @@ body {
   overflow: hidden;
 }
 
-.controls .playback {
+.controls .tabs {
 	right:60px;
 }
 
 .controls .tabs {
-	background:#333;
+	background:#616161;
 }
 
 .playback button, .tabs button {
@@ -85,17 +85,19 @@ body {
 	background:none;
 }
 
-.tabs .search {
+.tabs .search-btt {
 	display:none;
 	background-image: url(images/search_icon.png);
 	background-repeat:no-repeat;
 	background-position:50% 50%;
+	background-size:36px 36px;
 }
 
-.tabs .favs {
-	background-image: url(images/star_icon.png);
+.tabs .history-btt {
+	background-image: url(images/history_icon.png);
 	background-repeat:no-repeat;
 	background-position:50% 50%;
+	background-size:36px 36px;
 }
 
 #favs-results {

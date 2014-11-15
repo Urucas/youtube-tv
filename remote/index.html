@@ -16,19 +16,21 @@
       <input id="searchQuery" type="search" value="" placeholder="Search on Youtube..." />
       <div class="loading"></div>
     </div>
+
+		<div class="tabs">
+			<button class="history-btt"></button>
+			<button class="search-btt"></button>
+		</div>
+
     <div class="playback">
       <button class="play"></button>
       <button class="pause"></button>
     </div>
-		<div class="tabs">
-			<button class="favs"></button>
-			<button class="search"></button>
-		</div>
-  </div>
+	</div>
 
   <div id="results" class="video-list"></div>
 
-	<div id="favs-results" class="video-list"></div>
+	<div id="history" class="video-list"></div>
 
   <div class="__templates" style="display:none;">
     <article class="video">
@@ -48,6 +50,6 @@
   <script src="/js/search.js"></script>
   <script src="/js/remote.js"></script>
 	
-	<script src="/js/favs.js"></script>
+	<script src="/js/history.js"></script>
 </body>
 </html>

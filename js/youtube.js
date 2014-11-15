@@ -12,7 +12,9 @@ var Youtube = new (function() {
   // Watch a specific video (args is an object with id, title and thumbnail of the video)
   this.watchVideo = function(video) {
     this.setStatus('play');
-    ytIo.emit('watchVideo', video);
+		ytIo.emit('watchVideo', video);
+
+		Database.add(video);
   };
 
   // These are simple playback controls
@@ -28,7 +30,6 @@ var Youtube = new (function() {
     this.setStatus('stop');
     ytIo.emit('stop');
   };
-
 
   this.setStatus = function(status) {
     this.status = status;
