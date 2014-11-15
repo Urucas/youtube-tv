@@ -17,52 +17,32 @@ var Database = new (function(){
 	};
 	
 	this.add = function(obj, cb) {
-		nosql.insert(obj, cb);
+		this.exists(obj.id, function(exists){
+			if(!exists) {
+				nosql.insert(obj, cb);
+			}
+		});
 	}
 	
+	this.exists = function(id, cb) {
+		var find = function(obj) {
+			if(obj.id == id) return obj;
+		}
+		nosql.all(find, function(r){
+			cb(r.length ? true : false);
+		});
+	}
+
 	this.getAll = function(cb) {
-		console.log("getting all");
 		nosql.all(cb);
 	}
 	
 	this.search = function(q, cb) {
 		var map = function(obj){
-			if(obj.b == 3) return obj;
+			if(obj.title.indexOf(q) !== -1) return obj;
 		}
 		nosql.all(map, cb)
 	}
 
-	this.del = function(cb) {
-		var filter = function(obj) {
-			if(obj.b == 3) {
-				console.log("found");
-				return obj;
-			}
-		}
-		nosql.remove(filter, cb);
-	}
-
 });
-
 Database.init();
-/*
-Database.add({a:1, b:3}, function(r){
-	console.log(r);
-});
-*/
-
-/*
-Database.getAll(function(r){
-	console.log(r);
-});
-
-/*
-Database.search(function(r){
-	console.log(r);
-});
-*/
-/*
-Database.del(function(r){
-	console.log(r);
-});
-*/

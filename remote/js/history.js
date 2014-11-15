@@ -32,12 +32,12 @@ socket.on("recents", function(videos){
 	videos.forEach(function(video){
     // You should really use something like handlebars here
     var $video = $template.clone();
-		console.log(video);
-    $video.data('id', video.id);
-    $video.data('title', video.title);
-    $video.data('thumbnail', video.thumbnail.hqDefault);
 
-    $video.find('img').attr('src', video.thumbnail.hqDefault );
+		$video.data('id', video.id);
+    $video.data('title', video.title);
+    $video.data('thumbnail', video.thumbnail);
+
+    $video.find('img').attr('src', video.thumbnail );
     $video.find('h2').text( video.title );
 
     $('#history').append($video);

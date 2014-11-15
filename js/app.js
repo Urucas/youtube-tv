@@ -30,9 +30,12 @@ io.on('connection', function (socket) {
 
   // This is what happens when we receive the watchVideo command (picking a video from the list)
   socket.on('watchVideo', function (video) {
-    // video contains a bit of info about our video (id, title, thumbnail)
+		
+		// add video to local database
+		Database.add(video);
+    
+		// video contains a bit of info about our video (id, title, thumbnail)
     // Order our Youtube Player to watch that video
-		console.log(video);
     Youtube.watchVideo(video);
   });
 

@@ -11,10 +11,8 @@ var Youtube = new (function() {
 
   // Watch a specific video (args is an object with id, title and thumbnail of the video)
   this.watchVideo = function(video) {
-    this.setStatus('play');
+		this.setStatus('play');
 		ytIo.emit('watchVideo', video);
-
-		Database.add(video);
   };
 
   // These are simple playback controls

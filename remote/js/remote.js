@@ -38,13 +38,15 @@ $('#searchQuery').on('keyup', function(event){
   }
 });
 
-
 // When we click on a video, watch it on the App
 $('#results').on('click', '.video', function(event){
   // Send an event to notify the server we want to watch this video
   socket.emit('watchVideo', $(this).data());
 });
 
+$('#history').on('click', '.video', function(event){
+	socket.emit('watchVideo', $(this).data());
+});
 
 // When the server tells us that the player changed status (play/pause), alter the controls
 socket.on('statusChange', function(status){
