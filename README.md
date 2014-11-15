@@ -360,3 +360,6 @@ You can start expanding on this to improve the app:
 • Why not get rid of the horrible default frame and create your own? You can actually designate any div as a window handle with CSS (using -webkit-app-region: drag), so you can drag the window by that div and create your own custom title bar.
 
 While the app has a lot of interlocking parts, it's a good first project to find out what you can achieve with Node-Webkit in just a few minutes. I hope you enjoyed this post!
+
+
+# Extra Module - Saving recent videos history using NOSQL
