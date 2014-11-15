@@ -362,4 +362,10 @@ You can start expanding on this to improve the app:
 While the app has a lot of interlocking parts, it's a good first project to find out what you can achieve with Node-Webkit in just a few minutes. I hope you enjoyed this post!
 
 
-# Extra Module - Saving recent videos history using NOSQL
+# Extra Module - Saving recent videos history using NoSQL
+
+**What is NoSql**
+
+A NoSQL (often interpreted as <b>N</b>ot <b>O</b>nly SQL) database provides a mechanism for storage and retrieval of data that is modeled in means other than the tabular relations used in relational databases.
+
+For this project, we are going to use NoSQL node package created by petersirka. <a href="https://github.com/petersirka/nosql">https://github.com/petersirka/nosql</a>, a small node.js NoSQL embedded database.
