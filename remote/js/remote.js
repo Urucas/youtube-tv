@@ -14,24 +14,24 @@ $('#searchQuery').on('keyup', function(event){
   // If the user pressed enter, search inmediately
   if( event.keyCode === 13 ) {
     // Show the loading gif and hide it when the search is done
-    $('.loading').show();
 		var q = $('#searchQuery').val();
 		if($("#results").css("display") == "block") {
+    	$('.loading').show();
 	    searchYoutube(q, function(){ $('.loading').hide(); });
 		}else {
-			searchFavs(q, function(){ $('.loading').hide();});
+			searchHistory(q);
 		}
   }
   else {
     // If not, wait a bit before searching automatically
     searchTimeout = setTimeout(function(){
       // Show the loading gif and hide it when the search is done
-      $('.loading').show();
 			var q = $('#searchQuery').val();
 			if($("#results").css("display") == "block") {
+      	$('.loading').show();
 	      searchYoutube(q, function(){ $('.loading').hide(); });
 			}else{
-				searchFavs(q, function(){ $(".loading").hide(); })
+				searchHistory(q);
 			}
 
     }, 500);
@@ -45,6 +45,7 @@ $('#results').on('click', '.video', function(event){
 });
 
 $('#history').on('click', '.video', function(event){
+  // Send an event to notify the server we want to watch this video
 	socket.emit('watchVideo', $(this).data());
 });
 

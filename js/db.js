@@ -1,9 +1,10 @@
 
 var Database = new (function(){
 	
-	var status = 'not ready';
+	// Local nosql database path
 	var nosql = require('nosql').load(process.cwd()+'/db/db.nosql');
 	
+	// Connects to the local nosql database
 	this.init = function(){
 		var custom = nosql.custom();
 		if(custom == undefined) {
@@ -12,18 +13,21 @@ var Database = new (function(){
 		}
 		nosql.on('load', function(){
 			console.log('nosql ready');
-			status = 'ready';
 		});
 	};
 	
+	// Add video to local nosql database
 	this.add = function(obj, cb) {
+		// Checks if the video is already in our database 
 		this.exists(obj.id, function(exists){
 			if(!exists) {
+				// Addd the video if it isnt in the local nosql database
 				nosql.insert(obj, cb);
 			}
 		});
 	}
 	
+	// Search for a video in the local nosql database
 	this.exists = function(id, cb) {
 		var find = function(obj) {
 			if(obj.id == id) return obj;
@@ -33,15 +37,20 @@ var Database = new (function(){
 		});
 	}
 
+	// Return all the videos in the local nosql database
 	this.getAll = function(cb) {
 		nosql.all(cb);
 	}
 	
+	// Search for a video in the local nosql database
 	this.search = function(q, cb) {
-		var map = function(obj){
-			if(obj.title.indexOf(q) !== -1) return obj;
+		var find = function(obj){
+			console.log(obj.title);
+			if(obj.title.toLowerCase().indexOf(q) !== -1) { 
+				return obj;
+			}
 		}
-		nosql.all(map, cb)
+		nosql.all(find, cb)
 	}
 
 });

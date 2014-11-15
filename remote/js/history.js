@@ -19,10 +19,14 @@ $(document).ready(function(){
 });
 
 function getRecents() {
-	socket.emit("get recents");
+	socket.emit("get history");
 }
 
-socket.on("recents", function(videos){
+function searchHistory(q) {
+	socket.emit("search history", {q:q});
+}
+
+socket.on("history", function(videos){
 
 	$('#history').html('');
   var $template = $(".__templates .video");
@@ -43,4 +47,4 @@ socket.on("recents", function(videos){
     $('#history').append($video);
   });
 
-})
+});

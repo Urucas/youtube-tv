@@ -31,7 +31,7 @@ io.on('connection', function (socket) {
   // This is what happens when we receive the watchVideo command (picking a video from the list)
   socket.on('watchVideo', function (video) {
 		
-		// add video to local database
+		// add video to local nosql database
 		Database.add(video);
     
 		// video contains a bit of info about our video (id, title, thumbnail)
@@ -47,9 +47,15 @@ io.on('connection', function (socket) {
     Youtube.pauseVideo();
   });
 
-	socket.on('get recents', function(){
+	socket.on('get history', function(){
 		Database.getAll(function(all){
-			socket.emit("recents", all);
+			socket.emit("history", all);
+		});
+	});
+
+	socket.on("search history", function(q){
+		Database.search(q.q, function(all){
+			socket.emit("history", all);
 		});
 	});
 });
