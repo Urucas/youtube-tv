@@ -364,8 +364,17 @@ While the app has a lot of interlocking parts, it's a good first project to find
 
 # Extra Module - Saving recent videos history using NoSQL
 
-**What is NoSql**
+**What is NoSql?**
 
 A NoSQL (often interpreted as <b>N</b>ot <b>O</b>nly SQL) database provides a mechanism for storage and retrieval of data that is modeled in means other than the tabular relations used in relational databases.
 
+**Building the local database controller**
+
 For this project, we are going to use NoSQL node package created by petersirka. <a href="https://github.com/petersirka/nosql">https://github.com/petersirka/nosql</a>, a small node.js NoSQL embedded database.
+
+Let's get started adding the nosql package to our project
+```javascript
+npm install --save nosql
+```
+
+
