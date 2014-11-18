@@ -368,8 +368,6 @@ While the app has a lot of interlocking parts, it's a good first project to find
 
 A NoSQL (often interpreted as <b>N</b>ot <b>O</b>nly SQL) database provides a mechanism for storage and retrieval of data that is modeled in means other than the tabular relations used in relational databases.
 
-**Building the local database controller**
-
 For this project, we are going to use NoSQL node package created by petersirka. <a href="https://github.com/petersirka/nosql">https://github.com/petersirka/nosql</a>, a small node.js NoSQL embedded database.
 
 Let's get started adding the nosql package to our project
@@ -377,4 +375,63 @@ Let's get started adding the nosql package to our project
 npm install --save nosql
 ```
 
+ **Building the local database controller**
+ ```javascript
+ var Database = new (function(){
+	
+	// Local nosql database path
+	var nosql = require('nosql').load(process.cwd()+'/db/db.nosql');
+	
+	// Connects to the local nosql database
+	this.init = function(){
+		var custom = nosql.custom();
+		if(custom == undefined) {
+			nosql.description('Youtubetv workshop');
+			nosql.custom({ key: '123456' });
+		}
+		nosql.on('load', function(){
+			console.log('nosql ready');
+		});
+	};
+	
+	// Add video to local nosql database
+	this.add = function(obj, cb) {
+		// Checks if the video is already in our database 
+		this.exists(obj.id, function(exists){
+			if(!exists) {
+				// Addd the video if it isnt in the local nosql database
+				nosql.insert(obj, cb);
+			}
+		});
+	}
+	
+	// Search for a video in the local nosql database
+	this.exists = function(id, cb) {
+		var find = function(obj) {
+			if(obj.id == id) return obj;
+		}
+		nosql.all(find, function(r){
+			cb(r.length ? true : false);
+		});
+	}
+
+	// Return all the videos in the local nosql database
+	this.getAll = function(cb) {
+		nosql.all(cb);
+	}
+	
+	// Search for a video in the local nosql database
+	this.search = function(q, cb) {
+		var find = function(obj){
+			console.log(obj.title);
+			if(obj.title.toLowerCase().indexOf(q) !== -1) { 
+				return obj;
+			}
+		}
+		nosql.all(find, cb)
+	}
+
+});
+Database.init();
+ ```
 
