@@ -39,7 +39,9 @@ var Database = new (function(){
 
 	// Return all the videos in the local nosql database
 	this.getAll = function(cb) {
-		nosql.all(cb);
+		nosql.all(function(r) {
+			cb(r.reverse());
+		});
 	}
 	
 	// Search for a video in the local nosql database
@@ -50,7 +52,9 @@ var Database = new (function(){
 				return obj;
 			}
 		}
-		nosql.all(find, cb)
+		nosql.all(find, function(r){
+			cb(r.reverse());
+		});
 	}
 
 });
