@@ -591,4 +591,3 @@ $('#searchQuery').on('keyup', function(event){
 });
 
 ```
-
