@@ -377,7 +377,8 @@ npm install --save nosql
 
  **Building the local database controller**
  ```javascript
- var Database = new (function(){
+
+var Database = new (function(){
 	
 	// Local nosql database path
 	var nosql = require('nosql').load(process.cwd()+'/db/db.nosql');
@@ -417,7 +418,9 @@ npm install --save nosql
 
 	// Return all the videos in the local nosql database
 	this.getAll = function(cb) {
-		nosql.all(cb);
+		nosql.all(function(r) {
+			cb(r.reverse());
+		});
 	}
 	
 	// Search for a video in the local nosql database
@@ -428,10 +431,14 @@ npm install --save nosql
 				return obj;
 			}
 		}
-		nosql.all(find, cb)
+		nosql.all(find, function(r){
+			cb(r.reverse());
+		});
 	}
 
 });
 Database.init();
+
+
  ```
 
