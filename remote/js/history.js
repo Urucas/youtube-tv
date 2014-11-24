@@ -1,22 +1,36 @@
+	
 $(document).ready(function(){
 	
-	$(".tabs > .history-btt").click(function(){
-		$(".tabs > button").hide();
-		$(".tabs > .search-btt").show();
+	$(".tabs > .menu-btt").click(function(){
+		$(".nav-menu").toggle();
+	});
+
+	$(".nav-menu").find("a[href='#search']").click(function(){
+		$("svg").css("visibility", "hidden");
+		$(this).find("svg").css("visibility", "visible");
+		
+		$(".video-list").hide();
+		$("#results").show();
+		
+		$(".nav-menu").hide();
+	});
+
+	$(".nav-menu").find("a[href='#history']").click(function(){
+		$("svg").css("visibility", "hidden");
+		$(this).find("svg").css("visibility", "visible");
+
 		$(".video-list").hide();
 		$("#history").show();
 
+		$(".nav-menu").hide();
+		
 		getRecents();
 	});
 
-	$(".tabs > .search-btt").click(function(){
-		$(".tabs > button").hide();
-		$(".tabs > .history-btt").show();
-		$(".video-list").hide();
-		$("#results").show();
-	});
+	
 
 });
+
 
 function getRecents() {
 	socket.emit("get history");

@@ -11,22 +11,38 @@
 </head>
 <body>
 
+	
   <div class="controls">
     <div class="search">
       <input id="searchQuery" type="search" value="" placeholder="Search on Youtube..." />
       <div class="loading"></div>
     </div>
 
-		<div class="tabs">
-			<button class="history-btt"></button>
-			<button class="search-btt"></button>
-		</div>
-
-    <div class="playback">
-      <button class="play"></button>
+ 		<div class="playback">
+    	<button class="play"></button>
       <button class="pause"></button>
     </div>
+
+		<div class="tabs">
+			<button class="menu-btt"></button>
+		</div>
+ 		
 	</div>
+
+	<nav class="nav-menu">
+		<a href="#search">
+			<svg width="24px" height="24px">
+				<circle cx="12" cy="16" r="6" stroke-width="0" fill="#fff" />
+			</svg>
+			Search</a>
+		<a href="#history">
+			<svg width="24px" height="24px" style="visibility:hidden;">
+				<circle cx="12" cy="16" r="6" stroke-width="0" fill="#fff" />
+			</svg>
+			History
+		</a>
+	</nav>
+
 
   <div id="results" class="video-list"></div>
 
@@ -51,5 +67,6 @@
   <script src="/js/remote.js"></script>
 	
 	<script src="/js/history.js"></script>
+
 </body>
 </html>
