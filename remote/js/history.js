@@ -27,8 +27,6 @@ $(document).ready(function(){
 		getRecents();
 	});
 
-	
-
 });
 
 
