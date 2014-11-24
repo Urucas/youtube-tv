@@ -451,12 +451,10 @@ We want our app to save automaticatly a video in the local database as we click 
   	Youtube.watchVideo(video);
   });
  ```
-
 **What's next ?** 
-
 Showing those local videos saved on our remote controller.  
 
-First, lets add **remote/js/history.js** to handle the remote controller ui navigation and the call to our desktop app
+First, lets add **remote/js/history.js**, 
 ```javascript
 	
 $(document).ready(function(){
@@ -488,9 +486,7 @@ $(document).ready(function(){
 	});
 });
 
-
 function getRecents() {
-	
 	socket.emit("get history");
 }
 
@@ -522,5 +518,19 @@ socket.on("history", function(videos){
 });
 
 ```
-As you seen on the history.js we added a few new events to our websocket that we'll have to implement on our **js/app.js**
+Now, lets add the new socket events on the **js/app.js**. These events will handle the communication between the remote controller and the local server, searching for the videos on the local database and sending them  back to the remote controller.
 
+```javascript
+	socket.on('get history', function(){
+		Database.getAll(function(all){
+			socket.emit("history", all);
+		});
+	});
+
+	socket.on("search history", function(q){
+		Database.search(q.q, function(all){
+			socket.emit("history", all);
+		});
+	});
+
+```
