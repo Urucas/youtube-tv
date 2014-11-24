@@ -450,6 +450,16 @@ We want our app to save automaticatly a video in the local database as we click 
  	// Order our Youtube Player to watch that video
   	Youtube.watchVideo(video);
   });
-
  ```
 
+**What's next ?** 
+Getting the history videos list to show on the remote controller. For this, we are going to add another event on the websocket in charge on getting the videos list from the local database and sending them to the controller.
+
+In the js/app.js
+```javascript
+socket.on('get history', function(){
+	Database.getAll(function(all){
+		socket.emit("history", all);
+	});
+});
+```
