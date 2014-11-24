@@ -453,7 +453,75 @@ We want our app to save automaticatly a video in the local database as we click 
  ```
 
 **What's next ?** 
-Getting the history videos list to show on the remote controller. For this, we are going to add another event on the websocket in charge on getting the videos list from the local database and sending them to the controller.
+Showing those local videos saved on our remote controller.  
+
+First, we are going to add **remote/js/history.js** to handle the remote controller ui navigation and the call to our deskttop app
+```javascript
+	
+$(document).ready(function(){
+	$(".tabs > .menu-btt").click(function(){
+		$(".nav-menu").toggle();
+	});
+
+	$(".nav-menu").find("a[href='#search']").click(function(){
+		$("svg").css("visibility", "hidden");
+		$(this).find("svg").css("visibility", "visible");
+		
+		$(".video-list").hide();
+		$("#results").show();
+		
+		$(".nav-menu").hide();
+	});
+
+	$(".nav-menu").find("a[href='#history']").click(function(){
+		$("svg").css("visibility", "hidden");
+		$(this).find("svg").css("visibility", "visible");
+
+		$(".video-list").hide();
+		$("#history").show();
+
+		$(".nav-menu").hide();
+		
+		getRecents();
+	});
+});
+
+
+function getRecents() {
+	socket.emit("get history");
+}
+
+function searchHistory(q) {
+	socket.emit("search history", {q:q});
+}
+
+socket.on("history", function(videos){
+
+	$('#history').html('');
+  	var $template = $(".__templates .video");
+
+	if( typeof videos === 'undefined' || videos.length <= 0 ){ return; }
+
+	videos.forEach(function(video){
+    	// You should really use something like handlebars here
+    		var $video = $template.clone();
+
+		$video.data('id', video.id);
+    		$video.data('title', video.title);
+    		$video.data('thumbnail', video.thumbnail);
+
+    		$video.find('img').attr('src', video.thumbnail );
+    		$video.find('h2').text( video.title );
+
+    		$('#history').append($video);
+  	});
+
+});
+
+```
+
+
+Second, we are going to add another event on the **js/app.js** in charge on getting the videos list from the local database and sending them to the controller.
 
 In the js/app.js
 ```javascript
@@ -463,3 +531,4 @@ socket.on('get history', function(){
 	});
 });
 ```
+
