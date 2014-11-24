@@ -377,7 +377,8 @@ npm install --save nosql
 
  **Building the local database controller**
  ```javascript
- var Database = new (function(){
+
+var Database = new (function(){
 	
 	// Local nosql database path
 	var nosql = require('nosql').load(process.cwd()+'/db/db.nosql');
@@ -417,7 +418,9 @@ npm install --save nosql
 
 	// Return all the videos in the local nosql database
 	this.getAll = function(cb) {
-		nosql.all(cb);
+		nosql.all(function(r) {
+			cb(r.reverse());
+		});
 	}
 	
 	// Search for a video in the local nosql database
@@ -428,10 +431,105 @@ npm install --save nosql
 				return obj;
 			}
 		}
-		nosql.all(find, cb)
+		nosql.all(find, function(r){
+			cb(r.reverse());
+		});
 	}
 
 });
 Database.init();
  ```
+ 
+We want our app to save automaticatly a video in the local database as we click play, so in the <b>js/app.js</b> watchVideo event lets add the Database.add(video) method
+ ```javascript
+ socket.on('watchVideo', function (video) {
+	// add video to local nosql database
+	Database.add(video);
+    
+	// video contains a bit of info about our video (id, title, thumbnail)
+ 	// Order our Youtube Player to watch that video
+  	Youtube.watchVideo(video);
+  });
+ ```
+**What's next ?** 
+Showing those local videos saved on our remote controller.  
 
+First, lets add **remote/js/history.js**, 
+```javascript
+	
+$(document).ready(function(){
+	
+	$(".tabs > .menu-btt").click(function(){
+		$(".nav-menu").toggle();
+	});
+
+	$(".nav-menu").find("a[href='#search']").click(function(){
+		$("svg").css("visibility", "hidden");
+		$(this).find("svg").css("visibility", "visible");
+		
+		$(".video-list").hide();
+		$("#results").show();
+		
+		$(".nav-menu").hide();
+	});
+
+	$(".nav-menu").find("a[href='#history']").click(function(){
+		$("svg").css("visibility", "hidden");
+		$(this).find("svg").css("visibility", "visible");
+
+		$(".video-list").hide();
+		$("#history").show();
+
+		$(".nav-menu").hide();
+		
+		getRecents();
+	});
+});
+
+function getRecents() {
+	socket.emit("get history");
+}
+
+function searchHistory(q) {
+	socket.emit("search history", {q:q});
+}
+
+socket.on("history", function(videos){
+
+	$('#history').html('');
+  	var $template = $(".__templates .video");
+
+	if( typeof videos === 'undefined' || videos.length <= 0 ){ return; }
+
+	videos.forEach(function(video){
+    	// You should really use something like handlebars here
+    		var $video = $template.clone();
+
+		$video.data('id', video.id);
+    		$video.data('title', video.title);
+    		$video.data('thumbnail', video.thumbnail);
+
+    		$video.find('img').attr('src', video.thumbnail );
+    		$video.find('h2').text( video.title );
+
+    		$('#history').append($video);
+  	});
+
+});
+
+```
+Now, lets add the new socket events on the **js/app.js**. These events will handle the communication between the remote controller and the local server, searching for the videos on the local database and sending them  back to the remote controller.
+
+```javascript
+socket.on('get history', function(){
+	Database.getAll(function(all){
+		socket.emit("history", all);
+	});
+});
+
+socket.on("search history", function(q){
+	Database.search(q.q, function(all){
+		socket.emit("history", all);
+	});
+});
+```
