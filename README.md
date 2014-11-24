@@ -521,16 +521,15 @@ socket.on("history", function(videos){
 Now, lets add the new socket events on the **js/app.js**. These events will handle the communication between the remote controller and the local server, searching for the videos on the local database and sending them  back to the remote controller.
 
 ```javascript
-	socket.on('get history', function(){
-		Database.getAll(function(all){
-			socket.emit("history", all);
-		});
+socket.on('get history', function(){
+	Database.getAll(function(all){
+		socket.emit("history", all);
 	});
+});
 
-	socket.on("search history", function(q){
-		Database.search(q.q, function(all){
-			socket.emit("history", all);
-		});
+socket.on("search history", function(q){
+	Database.search(q.q, function(all){
+		socket.emit("history", all);
 	});
-
+});
 ```
