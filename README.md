@@ -438,7 +438,18 @@ var Database = new (function(){
 
 });
 Database.init();
-
+ ```
+ 
+We want our app to save automaticatly a video in the local database as we click play, so in the <b>js/app.js</b> watchVideo event lets add the Database.add(video) method
+ ```javascript
+ socket.on('watchVideo', function (video) {
+	// add video to local nosql database
+	Database.add(video);
+    
+	// video contains a bit of info about our video (id, title, thumbnail)
+ 	// Order our Youtube Player to watch that video
+  	Youtube.watchVideo(video);
+  });
 
  ```
 
