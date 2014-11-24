@@ -453,12 +453,14 @@ We want our app to save automaticatly a video in the local database as we click 
  ```
 
 **What's next ?** 
+
 Showing those local videos saved on our remote controller.  
 
-First, we are going to add **remote/js/history.js** to handle the remote controller ui navigation and the call to our deskttop app
+First, lets add **remote/js/history.js** to handle the remote controller ui navigation and the call to our desktop app
 ```javascript
 	
 $(document).ready(function(){
+	
 	$(".tabs > .menu-btt").click(function(){
 		$(".nav-menu").toggle();
 	});
@@ -488,6 +490,7 @@ $(document).ready(function(){
 
 
 function getRecents() {
+	
 	socket.emit("get history");
 }
 
@@ -519,16 +522,5 @@ socket.on("history", function(videos){
 });
 
 ```
-
-
-Second, we are going to add another event on the **js/app.js** in charge on getting the videos list from the local database and sending them to the controller.
-
-In the js/app.js
-```javascript
-socket.on('get history', function(){
-	Database.getAll(function(all){
-		socket.emit("history", all);
-	});
-});
-```
+As you seen on the history.js we added a few new events to our websocket that we'll have to implement on our **js/app.js**
 
