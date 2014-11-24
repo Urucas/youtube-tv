@@ -533,3 +533,62 @@ socket.on("search history", function(q){
 	});
 });
 ```
+
+**Finisihing touches**
+Let's use the search bar to also search on the local database, modifying the *remote/js/remote.js* by changing a bit the keyup event.
+
+**Before**
+``` javascript
+var searchTimeout = null;
+$('#searchQuery').on('keyup', function(event){
+  // Cancel any queued searches
+  clearTimeout(searchTimeout);
+
+  // If the user pressed enter, search inmediately
+  if( event.keyCode === 13 ) {
+    // Show the loading gif and hide it when the search is done
+    $('.loading').show();
+    searchYoutube($('#searchQuery').val(), function(){ $('.loading').hide(); });
+  }
+  else {
+    // If not, wait a bit before searching automatically
+    searchTimeout = setTimeout(function(){
+      // Show the loading gif and hide it when the search is done
+      $('.loading').show();
+      searchYoutube($('#searchQuery').val(), function(){ $('.loading').hide(); });
+    }, 500);
+  }
+});
+```
+**After**
+```javascript
+$('#searchQuery').on('keyup', function(event){
+	// Cancel any queued searches
+	clearTimeout(searchTimeout);
+	// If the user pressed enter, search inmediately
+	if( event.keyCode === 13 ) {
+	// Show the loading gif and hide it when the search is done
+		var q = $('#searchQuery').val();
+		if($("#results").is(":visible")) {
+    			$('.loading').show();
+			searchYoutube(q, function(){ $('.loading').hide(); });
+		}else {
+			searchHistory(q);
+		}
+  	}else {
+    		// If not, wait a bit before searching automatically
+    		searchTimeout = setTimeout(function(){
+      		// Show the loading gif and hide it when the search is done
+			var q = $('#searchQuery').val();
+			if($("#results").is(":visible")){
+      				$('.loading').show();
+	      			searchYoutube(q, function(){ $('.loading').hide(); });
+			}else{
+				searchHistory(q);
+			}
+    		}, 500);
+	}
+});
+
+```
+
